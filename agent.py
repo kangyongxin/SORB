@@ -310,15 +310,17 @@ class UvfAgent(tf_agent.TFAgent):
 	def _experience_to_transitions(self, experience):
 		transitions = trajectory.to_transition(experience)
 		transitions = tf.nest.map_structure(lambda x: tf.squeeze(x, [1]), transitions)
-
+		#是对一个可循环结构的元素依次应用函数的过程
 		time_steps, policy_steps, next_time_steps = transitions
 		actions = policy_steps.action
 		return time_steps, actions, next_time_steps
 
 	def _train(self, experience, weights=None):
-		del weights
-		time_steps, actions, next_time_steps = self._experience_to_transitions(experience)
 
+		del weights
+		#数据读出来，time_step 是一个状态奖励构成的包
+		time_steps, actions, next_time_steps = self._experience_to_transitions(experience)
+		#####################################
 		# Update the critic
 		critic_vars = []
 		for ensemble_index in range(self._ensemble_size):

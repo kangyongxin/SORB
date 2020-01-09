@@ -22,9 +22,9 @@ class SearchPolicy(tf_policy.Base):
 		pdist_combined = np.max(pdist, axis=0)
 		for i, s_i in enumerate(rb_vec):
 			for j, s_j in enumerate(rb_vec):
-			length = pdist_combined[i, j]
-			if length < self._agent._max_search_steps:
-				g.add_edge(i, j, weight=length)
+				length = pdist_combined[i, j]
+				if length < self._agent._max_search_steps:
+					g.add_edge(i, j, weight=length)
 		return g
 	
 	def _get_path(self, time_step):

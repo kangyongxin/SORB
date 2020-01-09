@@ -1,3 +1,4 @@
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -21,11 +22,9 @@ def set_goal(traj, goal):
 
 def merge_obs_goal(observations):
 	"""Merge the observation and goal fields into a single tensor.
-
 	If both are 1D, we concatenate the observation and goal together. If both are
 	3D, we stack along the third axis, so the resulting tensor has
 	shape (H x W x 2 * D).
-
 	Args:
 		observations: Dictionary-type observations.
 	Returns:
@@ -62,7 +61,6 @@ class GoalConditionedActorNetwork(actor_network.ActorNetwork):
 
 class GoalConditionedCriticNetwork(critic_network.CriticNetwork):
 	"""Actor network that takes observations and goals as inputs.
-
 	Further modified so it can make multiple predictions.
 	"""
 
@@ -76,7 +74,6 @@ class GoalConditionedCriticNetwork(critic_network.CriticNetwork):
 				 name='CriticNetwork',
 				 output_dim=None):
 		"""Creates an instance of `CriticNetwork`.
-
 		Args:
 			input_tensor_spec: A tuple of (observation, action) each a nest of
 				`tensor_spec.TensorSpec` representing the inputs.
@@ -94,7 +91,6 @@ class GoalConditionedCriticNetwork(critic_network.CriticNetwork):
 			name: A string representing name of the network.
 			output_dim: An integer specifying the number of outputs. If None, output
 				will be flattened.
-
 		"""
 		self._output_dim = output_dim
 		(_, action_spec) = input_tensor_spec
@@ -157,3 +153,4 @@ class GoalConditionedCriticNetwork(critic_network.CriticNetwork):
 			predictions = tf.reshape(predictions, [-1, self._output_dim])
 
 		return predictions, network_state
+
