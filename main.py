@@ -149,15 +149,15 @@ agent = UvfAgent(
 	use_distributional_rl=True,
 	ensemble_size=3)
 
-train_eval(
-	agent,
-	tf_env,
-	eval_tf_env,
-	initial_collect_steps=1000,
-	eval_interval=1000,
-	num_eval_episodes=10,
-	num_iterations=30000,
-)
+# train_eval(
+# 	agent,
+# 	tf_env,
+# 	eval_tf_env,
+# 	initial_collect_steps=1000,
+# 	eval_interval=1000,
+# 	num_eval_episodes=10,
+# 	num_iterations=30000,
+# )
 
 # --------- Visualize rollouts. ---------
 eval_tf_env.pyenv.envs[0]._duration = 100  # We'll give the agent lots of time to try to find the goal.
@@ -219,7 +219,9 @@ plot_walls(eval_tf_env.pyenv.envs[0].env.walls)
 plt.show()
 
 # --------- Compute the pairwise distances ---------
+print("rrrrrrrrrrrrrrpdistrrrrrrrrrrrrrr")
 pdist = agent._get_pairwise_dist(rb_vec, aggregate=None).numpy()
+print("pdist.shape",pdist.shape)
 plt.figure(figsize=(6, 3))
 plt.hist(pdist.flatten(), bins=range(20))
 plt.xlabel('predicted distance')
@@ -248,6 +250,8 @@ plt.show()
 # --------- Ensemble of Critics --------- 
 cutoff = 5 #@param {min:0, max: 20, type:"slider"}
 edges_to_display = 8
+
+print("dddddddddd dis    dddd")
 plt.figure(figsize=(15, 4))
 
 for col_index in range(agent._ensemble_size):

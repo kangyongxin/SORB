@@ -35,9 +35,42 @@ train_eval 函数：
             trajectory[time_steps, policys, next_steps]
             time_step [reward, discount, obs]
             为啥把goal放到obs中，而不是放在reward中
+            这里的图是用一个向量组表示的
             
 
-    
+visualize rollouts 是画图的
+
+在replay buffer 中产生随机数据 rb_vec
+pdist = agent._get_pairrwise_dist()  pdist.shape (3, 1000, 1000)
+    pseudo_next_time_steps 找到下一个状态
+    _get_dist_to_goal（）
+        ._get_state_values（）
+            _get_expected_q_values（）
+                q_values_list = self._get_critic_output（）
+                    q_values, _ = critic_net(obs ,act) 
+算完之后怎么用了呢？
+
+在search_policy.py 中用 pdist来创建图 self._buildgraph		g = nx.DiGraph()
+		pdist_combined = np.max(pdist, axis=0)
+		for i, s_i in enumerate(rb_vec):
+			for j, s_j in enumerate(rb_vec):
+				length = pdist_combined[i, j]
+				if length < self._agent._max_search_steps:
+					g.add_edge(i, j, weight=length)
+		return g
+
+所以我们的目标是要把整个过程建立图，然后对图进行优化，优化之后再在图中进行搜索。
+
+search_policy._get_path 是用networkx.shortest_path 来计算最短路径的 ， 得到waypoint_vec, wypt_to_goal_dist[1:]，记录路径中的点,
+
+search_policy._action 把这些点设置为goal,放入time_step中去。返回self._agent.policy.action(time_step, policy_state, seed)
+
+
+
+
+这是个无向图，无向图如何聚类？
+
+
 
 
 
